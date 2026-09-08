@@ -79,21 +79,20 @@ public class JanelaMenuPrincipal extends JFrame {
         menu.setOpaque(false);
         menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
 
-        /*
+        
         JLabel titulo = new JLabel("UNESP MEMORY");
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 54));
+        titulo.setFont(GerenciadorFontes.obterFonte(Font.BOLD,54f));
         titulo.setForeground(Cores.TEXTO);
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        */
-       // TÍTULO
+
+        /* 
+        ao inves de fazer sempre esse try catch fiz um gerenciador de fonte pra poder usar em todos os textos
         JLabel titulo = new JLabel("UNESP MEMORY");
         
-        // Tentando carregar a fonte baixada do Google Fonts
         try {
-            java.io.InputStream is = getClass().getResourceAsStream("/jogodamemoria/recursos/fontes/font_pixel.ttf");
+            java.io.InputStream is = getClass().getResourceAsStream("/jogodamemoria/recursos/fontes/font_pixeladona.ttf");
             Font fonteCustomizada = Font.createFont(Font.TRUETYPE_FONT, is);
             
-            // O 54f no final é o tamanho da fonte (precisa ter esse 'f' de float)
             titulo.setFont(fonteCustomizada.deriveFont(Font.BOLD, 54f));
             
         } catch (Exception e) {
@@ -104,6 +103,7 @@ public class JanelaMenuPrincipal extends JFrame {
         
         titulo.setForeground(Cores.TEXTO);
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        */
 
         // LINHA DIVISORA  
         JSeparator divisor = new JSeparator(SwingConstants.HORIZONTAL);
