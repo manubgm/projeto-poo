@@ -79,9 +79,29 @@ public class JanelaMenuPrincipal extends JFrame {
         menu.setOpaque(false);
         menu.setLayout(new BoxLayout(menu, BoxLayout.Y_AXIS));
 
-        // TÍTULO
-        JLabel titulo = new JLabel("Campus.find()");
+        /*
+        JLabel titulo = new JLabel("UNESP MEMORY");
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 54));
+        titulo.setForeground(Cores.TEXTO);
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        */
+       // TÍTULO
+        JLabel titulo = new JLabel("UNESP MEMORY");
+        
+        // Tentando carregar a fonte baixada do Google Fonts
+        try {
+            java.io.InputStream is = getClass().getResourceAsStream("/jogodamemoria/recursos/fontes/font_pixel.ttf");
+            Font fonteCustomizada = Font.createFont(Font.TRUETYPE_FONT, is);
+            
+            // O 54f no final é o tamanho da fonte (precisa ter esse 'f' de float)
+            titulo.setFont(fonteCustomizada.deriveFont(Font.BOLD, 54f));
+            
+        } catch (Exception e) {
+            // Se der algum erro e não achar o arquivo, ele usa uma fonte padrão de segurança
+            System.out.println("Não foi possível carregar a fonte. Usando padrão.");
+            titulo.setFont(new Font("Segoe UI", Font.BOLD, 54));
+        }
+        
         titulo.setForeground(Cores.TEXTO);
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -100,13 +120,13 @@ public class JanelaMenuPrincipal extends JFrame {
 
         String[] textos = {
                 "UNESP · Câmpus Bauru",
-                "Desafie a sua mente!"
+                "Um jogo que brinca com sua memória"
         };
 
         new EfeitoDigitacao(subtitulo, textos).iniciar();
 
         // BOTÕES DO MENU
-        Dimension tamanhoBotao = new Dimension(360, 56);
+        Dimension tamanhoBotao = new Dimension(360, 46);
 
         btnUmJogador = new BotaoArredondado("Um Jogador", tamanhoBotao);
         btnDoisJogadores = new BotaoArredondado("Dois Jogadores", tamanhoBotao);
@@ -129,18 +149,20 @@ public class JanelaMenuPrincipal extends JFrame {
         menu.add(Box.createVerticalStrut(32));
 
         menu.add(btnUmJogador);
-        menu.add(Box.createVerticalStrut(12));
+        menu.add(Box.createVerticalStrut(20));
         menu.add(btnDoisJogadores);
-        menu.add(Box.createVerticalStrut(12));
+        menu.add(Box.createVerticalStrut(20));
         menu.add(btnCreditos);
-        menu.add(Box.createVerticalStrut(12));
+        menu.add(Box.createVerticalStrut(20));
         menu.add(btnSair);
 
         // CARD EM PAINEL VIDRO
         PainelVidro card = new PainelVidro();
         card.setLayout(new GridBagLayout());
-        card.setBorder(BorderFactory.createEmptyBorder(45, 55, 45, 55));
+        card.setBorder(BorderFactory.createEmptyBorder(30, 55, 30, 55));
         card.add(menu);
+
+      
 
         painelCentral.add(card);
 
