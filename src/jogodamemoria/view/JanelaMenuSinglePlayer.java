@@ -1,10 +1,9 @@
 package jogodamemoria.view;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import javax.swing.*;
 import jogodamemoria.view.componentes.BotaoArredondado;
 
 public class JanelaMenuSinglePlayer extends JanelaMenuBase {
@@ -26,7 +25,7 @@ public class JanelaMenuSinglePlayer extends JanelaMenuBase {
 
     private static final String REGRAS_PADRAO = "<html><div style='text-align: center; color: #2D1B4E; font-family: Segoe UI;'>"
             + "<span style='font-size: 32px; font-weight: bold;'>MODO PADRÃO</span><br><br><br>"
-            + "<span style='font-size: 19px;'>As mesmas regras do modo fácil se aplicam aqui, porém com um desafio muito maior para a sua mente.<br><br><br>"
+            + "<span style='font-size: 19px;'>As mesmas regras do modo fácil se aplicam aqui, porém com um desafio muito maior.<br><br><br>"
             + "<b>Regras:</b> São <b>12 pares</b> (24 cartas no total). Prepare-se para testar sua concentração ao máximo!</span>"
             + "</div></html>";
 

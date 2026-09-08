@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import jogodamemoria.controller.*;
 import jogodamemoria.model.*;
+import jogodamemoria.view.componentes.GerenciadorFontes;
 
 public class JanelaMultiplayer extends JPanel implements ActionListener {
 
@@ -85,7 +86,7 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
 
         for (int i = 0; i < totalCartas; i++) {
             JButton botao = new JButton("[ ? ]");
-            botao.setFont(new Font("Arial", Font.BOLD, 22));
+            botao.setFont(GerenciadorFontes.obterFonte(Font.BOLD,22f));
             botao.setFocusPainted(false);
             botoesCartas.add(botao);
             painelTabuleiro.add(botao);

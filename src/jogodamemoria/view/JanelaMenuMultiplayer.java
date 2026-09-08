@@ -1,10 +1,9 @@
 package jogodamemoria.view;
 
 import javax.swing.*;
-import java.awt.*;
-
-import jogodamemoria.view.componentes.BotaoArredondado;
+import javax.swing.*;import jogodamemoria.view.componentes.BotaoArredondado;
 import jogodamemoria.view.componentes.Cores;
+import jogodamemoria.view.componentes.GerenciadorFontes;
 
 public class JanelaMenuMultiplayer extends JanelaMenuBase {
 
@@ -23,7 +22,7 @@ public class JanelaMenuMultiplayer extends JanelaMenuBase {
         cardRegras.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
 
         JLabel lblHeaderRegras = new JLabel("REGRAS ESPECIAIS");
-        lblHeaderRegras.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblHeaderRegras.setFont(GerenciadorFontes.obterFonte(Font.BOLD,22f));
         lblHeaderRegras.setForeground(Cores.TEXTO);
         lblHeaderRegras.setAlignmentX(Component.CENTER_ALIGNMENT);
         cardRegras.add(lblHeaderRegras);
@@ -31,8 +30,8 @@ public class JanelaMenuMultiplayer extends JanelaMenuBase {
 
         cardRegras.add(criarSubBloco(
                 "<html><div style='font-family: Segoe UI; font-size: 13px; color: #2D1B4E;'>"
-                        + "<span style='color: #bba733;'><b>Tempo:</b></span> 30s por jogada<br>"
-                        + "<span style='color: #bba733;'><b>Objetivo:</b></span> Somar mais pontos alternando turnos"
+                        + "<span style='color: #05f4e4;'><b>Tempo:</b></span> 30s por jogada<br>"
+                        + "<span style='color: #dc5806;'><b>Objetivo:</b></span> Somar mais pontos alternando turnos"
                         + "</div></html>"));
         cardRegras.add(Box.createRigidArea(new Dimension(0, 10)));
 

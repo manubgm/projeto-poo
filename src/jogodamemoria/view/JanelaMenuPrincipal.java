@@ -1,5 +1,7 @@
 package jogodamemoria.view;
 
+import jogodamemoria.view.componentes.GerenciadorFontes;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -114,7 +116,7 @@ public class JanelaMenuPrincipal extends JFrame {
 
         // SUBTÍTULO COM DIGITAÇÃO
         JLabel subtitulo = new JLabel();
-        subtitulo.setFont(new Font("Consolas", Font.BOLD, 20));
+        subtitulo.setFont(GerenciadorFontes.obterFonte(Font.BOLD,20f));
         subtitulo.setForeground(Cores.TEXTO_MUTED);
         subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
