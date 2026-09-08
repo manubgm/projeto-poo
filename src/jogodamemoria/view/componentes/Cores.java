@@ -59,8 +59,9 @@ public class Cores {
     public static final Color TEXTO = Color.decode("#293133");
     public static final Color TEXTO_MUTED = Color.decode("#3C5D63");
     public static final Color TEXTO_BRANCO = Color.WHITE;
+    public static final Color TEXTO_CHAMATIVO = Color.decode("#4DEAFF");
 
-    // VIDRO E SOMBRAS (Mantendo a transparência adaptada ao novo estilo)
+    // VIDRO E SOMBRAS 
     public static final Color VIDRO_FUNDO = new Color(255, 255, 255, 60);
     public static final Color VIDRO_BORDA = new Color(255, 255, 255, 100);
     public static final Color DIVISOR_TRANSLUCIDO = new Color(255, 255, 255, 130);
@@ -71,8 +72,8 @@ public class Cores {
     public static final Color SUBTITULO_VITORIA = Color.decode("#3C5D63");
 
     // CARDS DE PLACAR (MULTIPLAYER E SINGLEPLAYER)   
-    public static final Color CARD_VENCEDOR_FUNDO = new Color(0, 210, 252, 180); // 
-    public static final Color CARD_VENCEDOR_BORDA = Color.decode("#28AFC9"); 
+    public static final Color CARD_VENCEDOR_FUNDO = Color.decode("#5047ff"); 
+    public static final Color CARD_VENCEDOR_BORDA = Color.decode("#2d54ff"); 
     public static final Color CARD_VENCEDOR_TEXTO_NOME = Color.decode("#293133");
     public static final Color CARD_VENCEDOR_TEXTO_PLACAR = Color.decode("#3C5D63"); 
 

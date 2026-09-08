@@ -1,11 +1,11 @@
 package jogodamemoria.view;
 
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 import jogodamemoria.model.Jogador;
 import jogodamemoria.model.Tabuleiro;
 import jogodamemoria.view.componentes.Cores;
+import jogodamemoria.view.componentes.GerenciadorFontes;
 
 public class JanelaVitoriaSingle extends JanelaVitoriaBase {
 
@@ -34,14 +34,14 @@ public class JanelaVitoriaSingle extends JanelaVitoriaBase {
 
         // Bloco 1: Tentativas
         JLabel lblTentativas = new JLabel("TENTATIVAS: " + tentativas, SwingConstants.CENTER);
-        lblTentativas.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblTentativas.setFont(GerenciadorFontes.obterFonte(Font.BOLD,15f));
         lblTentativas.setForeground(Cores.CARD_VENCEDOR_TEXTO_NOME);
 
         // Bloco 2: Tempo
         String textoTempo = tempoFinal.toUpperCase().startsWith("TEMPO") ? tempoFinal.toUpperCase()
                 : "TEMPO: " + tempoFinal.toUpperCase();
         JLabel lblTempo = new JLabel(textoTempo, SwingConstants.CENTER);
-        lblTempo.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblTempo.setFont(GerenciadorFontes.obterFonte(Font.BOLD,15f));
         lblTempo.setForeground(Cores.CARD_VENCEDOR_TEXTO_NOME);
 
         cardEstatisticas.add(lblTentativas);

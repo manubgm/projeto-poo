@@ -5,16 +5,17 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.awt.event.KeyEvent;
-
+import java.util.ArrayList;
 import javax.swing.*;
-import jogodamemoria.model.Tabuleiro;
-import jogodamemoria.model.Jogador;
 import jogodamemoria.controller.AudioController;
 import jogodamemoria.controller.JogoController;
 import jogodamemoria.controller.JogoController.ResultadoJogada;
 import jogodamemoria.controller.NavegacaoController;
+import jogodamemoria.model.Jogador;
+import jogodamemoria.model.Tabuleiro;
+import jogodamemoria.view.componentes.GerenciadorFontes;
+import jogodamemoria.view.componentes.GerenciadorSprites;
 
 public class JanelaSinglePlayer extends JPanel implements ActionListener {
 
@@ -59,7 +60,7 @@ public class JanelaSinglePlayer extends JPanel implements ActionListener {
 
         // SUPERIOR
         JLabel labelTitulo = new JLabel(textoTitulo, JLabel.CENTER);
-        labelTitulo.setFont(new Font("Arial", Font.BOLD, 24));
+        labelTitulo.setFont(GerenciadorFontes.obterFonte(Font.BOLD,24f));
 
         JPanel superior = new JPanel(new GridLayout(1, 1));
         superior.add(labelTitulo);
@@ -68,9 +69,27 @@ public class JanelaSinglePlayer extends JPanel implements ActionListener {
         // CENTRO
         painelTabuleiro = new JPanel(new GridLayout(lines, colunas, 15, 15));
 
+        /*
+        versao teste
         for (int i = 0; i < tabuleiro.getTamanho(); i++) {
             JButton botao = new JButton("[ ? ]");
-            botao.setFont(new Font("Arial", Font.BOLD, 24));
+            botao.setFont(GerenciadorFontes.obterFonte(Font.BOLD,24f));
+
+            botoesCartas.add(botao);
+            painelTabuleiro.add(botao);
+            botao.addActionListener(this);
+        }
+        */
+       for (int i = 0; i < tabuleiro.getTamanho(); i++) {
+            JButton botao = new JButton();
+            
+            ImageIcon versoCarta = GerenciadorSprites.obterCarta(0, 0, 100, 100);
+            botao.setIcon(versoCarta);
+            
+            // Configurações visuais para o botão comportar bem a imagem sem bordas estranhas
+            botao.setBorderPainted(false);
+            botao.setFocusPainted(false);
+            botao.setContentAreaFilled(false);
 
             botoesCartas.add(botao);
             painelTabuleiro.add(botao);
@@ -131,7 +150,7 @@ public class JanelaSinglePlayer extends JPanel implements ActionListener {
 
         for (int i = 0; i < tabuleiro.getTamanho(); i++) {
             JButton botao = new JButton("[ ? ]");
-            botao.setFont(new Font("Arial", Font.BOLD, 24));
+            botao.setFont(GerenciadorFontes.obterFonte(Font.BOLD,24f));
 
             botoesCartas.add(botao);
             painelTabuleiro.add(botao);
@@ -161,6 +180,8 @@ public class JanelaSinglePlayer extends JPanel implements ActionListener {
         });
     }
 
+    /* 
+    versao teste
     @Override
     public void actionPerformed(ActionEvent e) {
         if (tabuleiroBloqueado)
@@ -218,4 +239,69 @@ public class JanelaSinglePlayer extends JPanel implements ActionListener {
             }
         }
     }
+    */
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (tabuleiroBloqueado)
+            return;
+
+        for (int i = 0; i < botoesCartas.size(); i++) {
+            if (e.getSource() == botoesCartas.get(i)) {
+
+                ResultadoJogada resultado = gerenciador.processarCliqueCarta(i);
+                
+                // Pega o identificador da carta (ex: "gato", "computador", etc.)
+                String valorCarta = tabuleiro.getCarta(i).getValor();
+
+                switch (resultado) {
+                    case PRIMEIRA_CARTA_VIRADA:
+                        // Mostra a imagem correspondente à carta da frente
+                        botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valorCarta, 100, 100));
+                        indexPrimeiraCarta = i;
+                        break;
+
+                    case ACERTOU_PAR:
+                        AudioController.tocarEfeito("/jogodamemoria/recursos/sons/acerto.wav");
+                        botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valorCarta, 100, 100));
+                        lblPontos.setText("Pares Feitos: " + jogador.getPontuacao());
+                        indexPrimeiraCarta = -1;
+                        break;
+
+                    case ERROU_PAR:
+                        botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valorCarta, 100, 100));
+                        tabuleiroBloqueado = true;
+
+                        int pBotao = indexPrimeiraCarta;
+                        int sBotao = i;
+
+                        // Timer para esconder as cartas de novo após 1 segundo se errar
+                        Timer timer = new Timer(1000, evento -> {
+                            // Retorna para o verso da carta (ex: coluna 0, linha 0 com o logo da Unesp)
+                            botoesCartas.get(pBotao).setIcon(GerenciadorSprites.obterCarta(0, 0, 100, 100));
+                            botoesCartas.get(sBotao).setIcon(GerenciadorSprites.obterCarta(0, 0, 100, 100));
+                            tabuleiroBloqueado = false;
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                        break;
+
+                    case VITORIA:
+                        botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valorCarta, 100, 100));
+                        lblPontos.setText("Pares Feitos: " + jogador.getPontuacao());
+                        cronometro.stop();
+                        AudioController.tocarEfeito("/jogodamemoria/recursos/sons/vitoria.wav");
+                        navegacaoController.exibirVitoria(this, gerenciador.getTentativas(), lblTempo.getText(),
+                                jogador, tabuleiro);
+                        break;
+
+                    case IGNORAR:
+                    default:
+                        break;
+                }
+                break;
+            }
+        }
+    }
+
 }

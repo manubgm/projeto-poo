@@ -1,11 +1,11 @@
 package jogodamemoria.view;
 
-import javax.swing.*;
 import java.awt.*;
-
+import javax.swing.*;
 import jogodamemoria.model.Jogador;
 import jogodamemoria.model.Tabuleiro;
 import jogodamemoria.view.componentes.Cores;
+import jogodamemoria.view.componentes.GerenciadorFontes;
 
 public class JanelaVitoriaMultiplayer extends JanelaVitoriaBase {
 
@@ -60,7 +60,7 @@ public class JanelaVitoriaMultiplayer extends JanelaVitoriaBase {
 
         // Esquerda: Nome do jogador
         JLabel lblNome = new JLabel(nome);
-        lblNome.setFont(new Font("Segoe UI", Font.BOLD, eVencedor ? 18 : 16));
+        lblNome.setFont(GerenciadorFontes.obterFonte(Font.BOLD,14f));
         lblNome.setForeground(eVencedor ? Cores.CARD_VENCEDOR_TEXTO_NOME : Cores.CARD_PERDEDOR_TEXTO_NOME);
 
         // Direita: Pontuação e contagem de pares
@@ -68,7 +68,7 @@ public class JanelaVitoriaMultiplayer extends JanelaVitoriaBase {
         String textPares = pares == 1 ? "1 par" : pares + " pares";
 
         JLabel lblPlacar = new JLabel(textPontos + "  •  " + textPares);
-        lblPlacar.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblPlacar.setFont(GerenciadorFontes.obterFonte(Font.BOLD,14f));
         lblPlacar.setForeground(eVencedor ? Cores.CARD_VENCEDOR_TEXTO_PLACAR : Cores.CARD_PERDEDOR_TEXTO_PLACAR);
 
         card.add(lblNome, BorderLayout.WEST);

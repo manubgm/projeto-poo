@@ -1,7 +1,8 @@
 package jogodamemoria.view;
 
+import java.awt.*;
 import javax.swing.*;
-import javax.swing.*;import jogodamemoria.view.componentes.BotaoArredondado;
+import jogodamemoria.view.componentes.BotaoArredondado;
 import jogodamemoria.view.componentes.Cores;
 import jogodamemoria.view.componentes.GerenciadorFontes;
 

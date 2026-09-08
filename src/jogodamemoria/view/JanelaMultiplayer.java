@@ -8,6 +8,7 @@ import javax.swing.*;
 import jogodamemoria.controller.*;
 import jogodamemoria.model.*;
 import jogodamemoria.view.componentes.GerenciadorFontes;
+import jogodamemoria.view.componentes.GerenciadorSprites; // Importante para carregar as imagens
 
 public class JanelaMultiplayer extends JPanel implements ActionListener {
 
@@ -36,10 +37,9 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
 
         setLayout(new BorderLayout(10, 10));
 
-        //  NORTE - Jogador 1 
+        // NORTE - Jogador 1 
         painelJogador1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lblNomeJ1 = criarLabel("Jogador 1: " + (jogador1 != null ? jogador1.getNome() : "") + "  |  ", 18, Font.BOLD,
-                Color.BLACK);
+        lblNomeJ1 = criarLabel("Jogador 1: " + (jogador1 != null ? jogador1.getNome() : "") + "  |  ", 18, Font.BOLD, Color.BLACK);
         lblPontuacaoJ1 = criarLabel("Pontos: 0  |  ", 18, Font.BOLD, Color.BLACK);
         lblTempoJ1 = criarLabel("Tempo: 30s", 18, Font.BOLD, Color.RED);
         painelJogador1.add(lblNomeJ1);
@@ -55,8 +55,7 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
 
         // SUL - Jogador 2 
         painelJogador2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lblNomeJ2 = criarLabel("Jogador 2: " + (jogador2 != null ? jogador2.getNome() : "") + "  |  ", 18, Font.BOLD,
-                Color.BLACK);
+        lblNomeJ2 = criarLabel("Jogador 2: " + (jogador2 != null ? jogador2.getNome() : "") + "  |  ", 18, Font.BOLD, Color.BLACK);
         lblPontuacaoJ2 = criarLabel("Pontos: 0  |  ", 18, Font.BOLD, Color.BLACK);
         lblTempoJ2 = criarLabel("Tempo: 30s", 18, Font.BOLD, Color.RED);
         painelJogador2.add(lblNomeJ2);
@@ -85,9 +84,17 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
         painelTabuleiro.setLayout(new GridLayout(linhas, colunas, 10, 10));
 
         for (int i = 0; i < totalCartas; i++) {
-            JButton botao = new JButton("[ ? ]");
-            botao.setFont(GerenciadorFontes.obterFonte(Font.BOLD,22f));
+            JButton botao = new JButton();
+            
+            // Define o verso padrão da carta (ajuste 100, 100 se necessário para o tamanho exato da célula)
+            ImageIcon versoCarta = GerenciadorSprites.obterCarta(0, 0, 100, 100);
+            botao.setIcon(versoCarta);
+            
+            // Estilização para remover bordas do botão e exibir apenas a imagem
+            botao.setBorderPainted(false);
             botao.setFocusPainted(false);
+            botao.setContentAreaFilled(false);
+
             botoesCartas.add(botao);
             painelTabuleiro.add(botao);
             botao.addActionListener(this);
@@ -139,7 +146,11 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
             return;
         for (int i = 0; i < botoesCartas.size(); i++) {
             Carta carta = tabuleiro.getCarta(i);
-            botoesCartas.get(i).setText((carta.isDescoberta() || carta.isVirada()) ? carta.getValor() : "[ ? ]");
+            if (carta.isDescoberta() || carta.isVirada()) {
+                botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(carta.getValor(), 100, 100));
+            } else {
+                botoesCartas.get(i).setIcon(GerenciadorSprites.obterCarta(0, 0, 100, 100));
+            }
         }
     }
 
@@ -171,27 +182,30 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
         for (int i = 0; i < botoesCartas.size(); i++) {
             if (e.getSource() == botoesCartas.get(i)) {
 
-                // Ignora o clique se a carta já estiver virada/revelada
-                if (!botoesCartas.get(i).getText().equals("[ ? ]"))
+                Carta cartaAtual = tabuleiro.getCarta(i);
+
+                // Ignora o clique se a carta já estiver virada
+                if (cartaAtual.isVirada() || cartaAtual.isDescoberta())
                     return;
 
                 if (gerenciador != null) {
                     JogoController.ResultadoJogada resultado = gerenciador.processarCliqueCarta(i);
+                    String valor = cartaAtual.getValor();
 
                     switch (resultado) {
                         case PRIMEIRA_CARTA_VIRADA:
-                            botoesCartas.get(i).setText(tabuleiro.getCarta(i).getValor());
+                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             break;
 
                         case ACERTOU_PAR:
                             AudioController.tocarEfeito("/jogodamemoria/recursos/sons/acerto.wav");
-                            botoesCartas.get(i).setText(tabuleiro.getCarta(i).getValor());
+                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             gerenciador.resetarCronometro();
                             atualizarHUD();
                             break;
 
                         case ERROU_PAR:
-                            botoesCartas.get(i).setText(tabuleiro.getCarta(i).getValor());
+                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             tabuleiroBloqueado = true;
                             Timer timer = new Timer(1000, evento -> {
                                 sincronizarCartasVisuais();
@@ -204,7 +218,7 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
                             break;
 
                         case PERDEU_A_VEZ:
-                            botoesCartas.get(i).setText(tabuleiro.getCarta(i).getValor());
+                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             tabuleiroBloqueado = true;
                             JOptionPane.showMessageDialog(this, "Oops! Carta de Punição: Você perdeu a vez!",
                                     "Efeito Especial", JOptionPane.ERROR_MESSAGE);
@@ -215,20 +229,20 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
                             break;
 
                         case JOGUE_DE_NOVO_ATIVADO:
-                            botoesCartas.get(i).setText(tabuleiro.getCarta(i).getValor());
+                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             JOptionPane.showMessageDialog(this, "Boa! Carta Bônus: Jogue de novo!", "Efeito Especial",
                                     JOptionPane.INFORMATION_MESSAGE);
                             break;
 
                         case DOBRO_PONTOS_ATIVADO:
-                            botoesCartas.get(i).setText(tabuleiro.getCarta(i).getValor());
+                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             JOptionPane.showMessageDialog(this, "Incrível! Carta de Pontuação Dobrada neste turno!",
                                     "Efeito Especial", JOptionPane.INFORMATION_MESSAGE);
                             break;
 
                         case VITORIA:
                             gerenciador.pararCronometro();
-                            botoesCartas.get(i).setText(tabuleiro.getCarta(i).getValor());
+                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             atualizarHUD();
                             AudioController.tocarEfeito("/jogodamemoria/recursos/sons/vitoria.wav");
                             Jogador vencedor = gerenciador.compararPontos(jogador1, jogador2);

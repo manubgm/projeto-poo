@@ -1,12 +1,12 @@
 package jogodamemoria.view;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
-
+import javax.swing.*;
 import jogodamemoria.model.Tabuleiro;
 import jogodamemoria.view.componentes.BotaoArredondado;
 import jogodamemoria.view.componentes.Cores;
+import jogodamemoria.view.componentes.GerenciadorFontes;
 import jogodamemoria.view.componentes.PainelComFundo;
 import jogodamemoria.view.componentes.PainelVidro;
 
@@ -38,7 +38,7 @@ public abstract class JanelaVitoriaBase extends JDialog {
 
         // Título de Vitória 
         JLabel lblTitulo = new JLabel(titulo, SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblTitulo.setFont(GerenciadorFontes.obterFonte(Font.BOLD,28f));
         lblTitulo.setForeground(Cores.TEXTO_VITORIA);
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         cardCentral.add(lblTitulo);
@@ -55,7 +55,7 @@ public abstract class JanelaVitoriaBase extends JDialog {
 
         // Subtítulo
         JLabel lblSubtitulo = new JLabel("PLACAR FINAL", SwingConstants.CENTER);
-        lblSubtitulo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblSubtitulo.setFont(GerenciadorFontes.obterFonte(Font.BOLD,14f));
         lblSubtitulo.setForeground(Cores.SUBTITULO_VITORIA);
         lblSubtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
         cardCentral.add(lblSubtitulo);
@@ -85,7 +85,7 @@ public abstract class JanelaVitoriaBase extends JDialog {
 
     protected static BotaoArredondado criarBotao(String texto, Color corBase, Color corHover) {
         BotaoArredondado botao = new BotaoArredondado(texto, new Dimension(175, 46), corBase, corHover);
-        botao.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        botao.setFont(GerenciadorFontes.obterFonte(Font.BOLD,15f));
         return botao;
     }
 

@@ -1,7 +1,7 @@
 package jogodamemoria.view;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 import jogodamemoria.view.componentes.*;
 
 public class JanelaCreditos extends PainelComFundo {
@@ -30,7 +30,7 @@ public class JanelaCreditos extends PainelComFundo {
         conteudo.setLayout(new BoxLayout(conteudo, BoxLayout.Y_AXIS));
 
         // 1. Títulos
-        conteudo.add(criarRotulo("Campus.find()", new Font("Segoe UI", Font.BOLD, 48), Cores.TEXTO));
+        conteudo.add(criarRotulo("UNESP MEMORY", GerenciadorFontes.obterFonte(Font.BOLD,50f), Cores.TEXTO));
         conteudo.add(Box.createVerticalStrut(4));
         conteudo.add(criarRotulo("PROGRAMAÇÃO ORIENTADA A OBJETOS", new Font("Segoe UI", Font.BOLD, 13), Cores.AZUL_BASE));
         conteudo.add(Box.createVerticalStrut(20));

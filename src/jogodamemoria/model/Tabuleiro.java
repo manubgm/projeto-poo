@@ -17,6 +17,8 @@ public class Tabuleiro {
         inicializarTabuleiro();
     }
 
+   /*
+   teste
     private void inicializarTabuleiro() {
         if (!isMultiplayer) {            
             for (int i = 1; i <= totalPares; i++) {
@@ -53,6 +55,50 @@ public class Tabuleiro {
         Collections.shuffle(cartas);
 
         // GABARITO FORMATADO EM GRID 
+        imprimirGabaritoGrid();
+    }
+    */
+
+    private void inicializarTabuleiro() {
+        if (!isMultiplayer) { 
+            String[] nomesCartas = {
+                "gato", "marmita", "chapeu", "diploma", 
+                "computador", "notebook", "livro", "mouse", 
+                "professor", "lampada", "pilhalivros", "mochila"
+            };
+
+            for (int i = 0; i < totalPares; i++) {
+                String valorCarta = nomesCartas[i % nomesCartas.length];
+                cartas.add(new Carta(i, valorCarta));
+                cartas.add(new Carta(i, valorCarta)); 
+            }
+        } else {
+            int j = 1;
+            for (int i = 1; i <= (totalPares); i++) {
+                String valorCarta = "" + j;
+                cartas.add(new Carta(j, valorCarta));
+                cartas.add(new Carta(j, valorCarta));
+                j++;
+            }
+            String valorPerdeu1 = "Perdeu_A_Vez_1";
+            cartas.add(new Carta(j, valorPerdeu1, Carta.Tipo_Carta.PERDEU_A_VEZ));
+            j++;
+
+            String valorPerdeu2 = "Perdeu_A_Vez_2";
+            cartas.add(new Carta(j, valorPerdeu2, Carta.Tipo_Carta.PERDEU_A_VEZ));
+            j++;
+
+            String valorDeNovo = "Jogue_De_Novo";
+            cartas.add(new Carta(j, valorDeNovo, Carta.Tipo_Carta.JOGUE_DE_NOVO));
+            cartas.add(new Carta(j, valorDeNovo, Carta.Tipo_Carta.JOGUE_DE_NOVO));
+            j++;
+
+            String valorDobro = "Dobro_Pontos";
+            cartas.add(new Carta(j, valorDobro, Carta.Tipo_Carta.DOBRO_PONTOS));
+            cartas.add(new Carta(j, valorDobro, Carta.Tipo_Carta.DOBRO_PONTOS));
+        }
+
+        Collections.shuffle(cartas);
         imprimirGabaritoGrid();
     }
 
