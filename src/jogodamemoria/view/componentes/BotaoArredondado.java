@@ -11,7 +11,7 @@ public class BotaoArredondado extends JButton {
     private final Color corHover;
 
     public BotaoArredondado(String texto, Dimension tamanho) {
-        this(texto, tamanho, Cores.ROXO, Cores.ROXO_HOVER);
+        this(texto, tamanho, Cores.AZUL_BASE, Cores.AZUL_MEDIO);
     }
 
     public BotaoArredondado(String texto, Dimension tamanho, Color corBase, Color corHover) {

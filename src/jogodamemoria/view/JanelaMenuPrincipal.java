@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.*;
-
 import jogodamemoria.controller.AudioController;
 import jogodamemoria.view.componentes.BotaoArredondado;
 import jogodamemoria.view.componentes.Cores;
@@ -48,7 +47,7 @@ public class JanelaMenuPrincipal extends JFrame {
 
         btnSom = new JButton();
         btnSom.setPreferredSize(new Dimension(54, 54));
-        btnSom.setBackground(Cores.ROXO);
+        btnSom.setBackground(Cores.AZUL_BASE);
         btnSom.setBorderPainted(false);
         btnSom.setFocusPainted(false);
         btnSom.setContentAreaFilled(false);
@@ -58,12 +57,12 @@ public class JanelaMenuPrincipal extends JFrame {
         btnSom.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                btnSom.setBackground(Cores.ROXO_HOVER);
+                btnSom.setBackground(Cores.AZUL_MEDIO);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btnSom.setBackground(Cores.ROXO);
+                btnSom.setBackground(Cores.AZUL_BASE);
             }
         });
 

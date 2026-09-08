@@ -4,6 +4,7 @@ import java.awt.Color;
 
 public class Cores {
 
+    /* versao 1
     // CORES PRINCIPAIS DA PALETA 
     public static final Color ROXO = new Color(91, 75, 155);
     public static final Color ROXO_HOVER = new Color(111, 91, 180);
@@ -41,6 +42,51 @@ public class Cores {
 
     public static final Color BOTAO_VITORIA_SECUNDARIO = ROXO;
     public static final Color BOTAO_VITORIA_SECUNDARIO_HOVER = ROXO_HOVER;
+
+    private Cores() {
+    }
+    */
+   
+    // CORES PRINCIPAIS DA PALETA 
+    public static final Color AZUL_BASE = Color.decode("#2B8AC9");
+    public static final Color AZUL_VIBRANTE = Color.decode("#00D2FC");
+    public static final Color AZUL_INTERMEDIARIO = Color.decode("#28AFC9");
+    public static final Color AZUL_MEDIO = Color.decode("#3C8796");
+    public static final Color AZUL_ESCURO = Color.decode("#3C5D63");
+    public static final Color FUNDO_ESCURO = Color.decode("#293133");
+
+    // TEXTOS 
+    public static final Color TEXTO = Color.decode("#293133");
+    public static final Color TEXTO_MUTED = Color.decode("#3C5D63");
+    public static final Color TEXTO_BRANCO = Color.WHITE;
+
+    // VIDRO E SOMBRAS (Mantendo a transparência adaptada ao novo estilo)
+    public static final Color VIDRO_FUNDO = new Color(255, 255, 255, 60);
+    public static final Color VIDRO_BORDA = new Color(255, 255, 255, 100);
+    public static final Color DIVISOR_TRANSLUCIDO = new Color(255, 255, 255, 130);
+    public static final Color SOMBRA = new Color(41, 49, 51, 60); 
+
+    // TEMA DE VITÓRIA
+    public static final Color TEXTO_VITORIA = Color.decode("#293133");
+    public static final Color SUBTITULO_VITORIA = Color.decode("#3C5D63");
+
+    // CARDS DE PLACAR (MULTIPLAYER E SINGLEPLAYER)   
+    public static final Color CARD_VENCEDOR_FUNDO = new Color(0, 210, 252, 180); // 
+    public static final Color CARD_VENCEDOR_BORDA = Color.decode("#28AFC9"); 
+    public static final Color CARD_VENCEDOR_TEXTO_NOME = Color.decode("#293133");
+    public static final Color CARD_VENCEDOR_TEXTO_PLACAR = Color.decode("#3C5D63"); 
+
+    public static final Color CARD_PERDEDOR_FUNDO = new Color(255, 255, 255, 45);
+    public static final Color CARD_PERDEDOR_BORDA = new Color(255, 255, 255, 90);
+    public static final Color CARD_PERDEDOR_TEXTO_NOME = TEXTO;
+    public static final Color CARD_PERDEDOR_TEXTO_PLACAR = TEXTO_MUTED;
+
+    // BOTÕES DE VITÓRIA
+    public static final Color BOTAO_VITORIA_PRIMARIO = Color.decode("#00D2FC");
+    public static final Color BOTAO_VITORIA_PRIMARIO_HOVER = Color.decode("#28AFC9");
+
+    public static final Color BOTAO_VITORIA_SECUNDARIO = Color.decode("#3C8796");
+    public static final Color BOTAO_VITORIA_SECUNDARIO_HOVER = Color.decode("#3C5D63");
 
     private Cores() {
     }

@@ -28,7 +28,7 @@ public abstract class JanelaVitoriaBase extends JDialog {
         setLocationRelativeTo(janelaPai);
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 28, 28));
 
-        // Fundo roxo padrão do jogo
+        
         PainelComFundo painelFundo = new PainelComFundo("/jogodamemoria/recursos/imagens/fundo.png");
         painelFundo.setLayout(new GridBagLayout());
 

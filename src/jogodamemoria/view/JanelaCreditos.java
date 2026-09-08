@@ -32,7 +32,7 @@ public class JanelaCreditos extends PainelComFundo {
         // 1. Títulos
         conteudo.add(criarRotulo("Campus.find()", new Font("Segoe UI", Font.BOLD, 48), Cores.TEXTO));
         conteudo.add(Box.createVerticalStrut(4));
-        conteudo.add(criarRotulo("PROGRAMAÇÃO ORIENTADA A OBJETOS", new Font("Segoe UI", Font.BOLD, 13), Cores.ROXO));
+        conteudo.add(criarRotulo("PROGRAMAÇÃO ORIENTADA A OBJETOS", new Font("Segoe UI", Font.BOLD, 13), Cores.AZUL_BASE));
         conteudo.add(Box.createVerticalStrut(20));
 
         // 2. Descrição / Objetivo 
@@ -63,7 +63,7 @@ public class JanelaCreditos extends PainelComFundo {
         conteudo.add(Box.createVerticalStrut(18));
 
         // 5. Apoio Institucional
-        conteudo.add(criarRotulo("DESENVOLVIMENTO E APOIO", new Font("Segoe UI", Font.BOLD, 12), Cores.ROXO));
+        conteudo.add(criarRotulo("DESENVOLVIMENTO E APOIO", new Font("Segoe UI", Font.BOLD, 12), Cores.AZUL_BASE));
         conteudo.add(Box.createVerticalStrut(12));
 
         JPanel logos = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 0));
@@ -112,7 +112,7 @@ public class JanelaCreditos extends PainelComFundo {
         };
         painel.setOpaque(false);
         painel.setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
-        painel.add(criarRotulo(titulo, new Font("Segoe UI", Font.BOLD, 11), Cores.ROXO), BorderLayout.NORTH);
+        painel.add(criarRotulo(titulo, new Font("Segoe UI", Font.BOLD, 11), Cores.AZUL_BASE), BorderLayout.NORTH);
         painel.add(
                 criarRotulo("<html><div style='text-align: center; color: #1A0C2E;'>" + conteudoHtml + "</div></html>",
                         new Font("Segoe UI", Font.PLAIN, 15), null),
