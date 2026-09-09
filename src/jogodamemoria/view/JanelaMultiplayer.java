@@ -86,11 +86,11 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
         for (int i = 0; i < totalCartas; i++) {
             JButton botao = new JButton();
             
-            // Define o verso padrão da carta (ajuste 100, 100 se necessário para o tamanho exato da célula)
+            // Define o verso padrão da carta
             ImageIcon versoCarta = GerenciadorSprites.obterCarta(0, 0, 100, 100);
             botao.setIcon(versoCarta);
             
-            // Estilização para remover bordas do botão e exibir apenas a imagem
+            // Estilização para remover bordas do botão
             botao.setBorderPainted(false);
             botao.setFocusPainted(false);
             botao.setContentAreaFilled(false);
@@ -103,28 +103,62 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
         painelTabuleiro.repaint();
     }
 
+    private void atualizarVisualBotao(JButton botao, Carta carta) {
+        if (carta.isDescoberta() || carta.isVirada()) {
+            String valor = carta.getValor();
+            
+            // Verifica se é uma carta especial
+            boolean ehEspecial = valor.equalsIgnoreCase("especial") || 
+                                 valor.equalsIgnoreCase("bonus") || 
+                                 valor.equalsIgnoreCase("punição") || 
+                                 valor.equalsIgnoreCase("duplo") ||
+                                 carta.isEspecial();
+
+            if (ehEspecial) {
+                botao.setIcon(null); // Remove o sprite
+                botao.setText(valor.toUpperCase()); // Exibe o texto da carta especial
+                botao.setFont(new Font("Arial", Font.BOLD, 12));
+                botao.setForeground(Color.RED);
+                botao.setContentAreaFilled(true);
+                botao.setBackground(Color.YELLOW); 
+            } else {
+                botao.setText(""); 
+                botao.setContentAreaFilled(false);
+                ImageIcon icone = GerenciadorSprites.obterIconePorValor(valor, 100, 100);
+                botao.setIcon(icone);
+            }
+        } else {
+            // Carta virada para baixo (Verso)
+            botao.setText("");
+            botao.setContentAreaFilled(false);
+            botao.setIcon(GerenciadorSprites.obterCarta(0, 0, 100, 100));
+        }
+    }
+
     private void configurarModoLocal() {
         gerenciador.configurarCallbacksCronometro(
-                () -> SwingUtilities.invokeLater(() -> {
-                    lblTempoJ1.setText("Tempo: " + gerenciador.getTempoRestanteJ1() + "s");
-                    lblTempoJ2.setText("Tempo: " + gerenciador.getTempoRestanteJ2() + "s");
-                }),
-                () -> SwingUtilities.invokeLater(() -> {
-                    lblTempoJ1.setText("Tempo: 0s");
-                    lblTempoJ2.setText("Tempo: 0s");
-                    tabuleiroBloqueado = true;
+            () -> SwingUtilities.invokeLater(() -> {
+                lblTempoJ1.setText("Tempo: " + gerenciador.getTempoRestanteJ1() + "s");
+                lblTempoJ2.setText("Tempo: " + gerenciador.getTempoRestanteJ2() + "s");
+            }),
+            () -> SwingUtilities.invokeLater(() -> {
+                lblTempoJ1.setText("Tempo: 0s");
+                lblTempoJ2.setText("Tempo: 0s");
+                tabuleiroBloqueado = true;
 
-                    Timer delayVisual = new Timer(200, evento -> {
-                        JOptionPane.showMessageDialog(this, "Tempo esgotado! Sua vez passou.", "Atenção",
-                                JOptionPane.WARNING_MESSAGE);
-                        sincronizarCartasVisuais();
-                        atualizarHUD();
-                        tabuleiroBloqueado = false;
-                        gerenciador.iniciarCronometro();
-                    });
-                    delayVisual.setRepeats(false);
-                    delayVisual.start();
-                }));
+                if (gerenciador != null) gerenciador.pararCronometro();
+
+                Timer delayVisual = new Timer(200, evento -> {
+                    JOptionPane.showMessageDialog(this, "Tempo esgotado! Sua vez passou.", "Atenção",
+                            JOptionPane.WARNING_MESSAGE);
+                    sincronizarCartasVisuais();
+                    atualizarHUD();
+                    tabuleiroBloqueado = false;
+                    if (gerenciador != null) gerenciador.iniciarCronometro();
+                });
+                delayVisual.setRepeats(false);
+                delayVisual.start();
+            }));
         atualizarHUD();
         gerenciador.iniciarCronometro();
     }
@@ -146,11 +180,7 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
             return;
         for (int i = 0; i < botoesCartas.size(); i++) {
             Carta carta = tabuleiro.getCarta(i);
-            if (carta.isDescoberta() || carta.isVirada()) {
-                botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(carta.getValor(), 100, 100));
-            } else {
-                botoesCartas.get(i).setIcon(GerenciadorSprites.obterCarta(0, 0, 100, 100));
-            }
+            atualizarVisualBotao(botoesCartas.get(i), carta);
         }
     }
 
@@ -184,28 +214,25 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
 
                 Carta cartaAtual = tabuleiro.getCarta(i);
 
-                // Ignora o clique se a carta já estiver virada
                 if (cartaAtual.isVirada() || cartaAtual.isDescoberta())
                     return;
 
                 if (gerenciador != null) {
                     JogoController.ResultadoJogada resultado = gerenciador.processarCliqueCarta(i);
-                    String valor = cartaAtual.getValor();
+
+                    atualizarVisualBotao(botoesCartas.get(i), cartaAtual);
 
                     switch (resultado) {
                         case PRIMEIRA_CARTA_VIRADA:
-                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             break;
 
                         case ACERTOU_PAR:
                             AudioController.tocarEfeito("/jogodamemoria/recursos/sons/acerto.wav");
-                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             gerenciador.resetarCronometro();
                             atualizarHUD();
                             break;
 
                         case ERROU_PAR:
-                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             tabuleiroBloqueado = true;
                             Timer timer = new Timer(1000, evento -> {
                                 sincronizarCartasVisuais();
@@ -218,31 +245,38 @@ public class JanelaMultiplayer extends JPanel implements ActionListener {
                             break;
 
                         case PERDEU_A_VEZ:
-                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
                             tabuleiroBloqueado = true;
+                            if (gerenciador != null) gerenciador.pararCronometro();
+                            
                             JOptionPane.showMessageDialog(this, "Oops! Carta de Punição: Você perdeu a vez!",
                                     "Efeito Especial", JOptionPane.ERROR_MESSAGE);
+                                    
                             sincronizarCartasVisuais();
                             atualizarHUD();
                             tabuleiroBloqueado = false;
-                            gerenciador.resetarCronometro();
+                            if (gerenciador != null) gerenciador.resetarCronometro();
                             break;
 
                         case JOGUE_DE_NOVO_ATIVADO:
-                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
+                            if (gerenciador != null) gerenciador.pararCronometro();
+                            
                             JOptionPane.showMessageDialog(this, "Boa! Carta Bônus: Jogue de novo!", "Efeito Especial",
                                     JOptionPane.INFORMATION_MESSAGE);
+                                    
+                            if (gerenciador != null) gerenciador.iniciarCronometro();
                             break;
 
                         case DOBRO_PONTOS_ATIVADO:
-                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
+                            if (gerenciador != null) gerenciador.pararCronometro();
+                            
                             JOptionPane.showMessageDialog(this, "Incrível! Carta de Pontuação Dobrada neste turno!",
                                     "Efeito Especial", JOptionPane.INFORMATION_MESSAGE);
+                                    
+                            if (gerenciador != null) gerenciador.iniciarCronometro();
                             break;
 
                         case VITORIA:
-                            gerenciador.pararCronometro();
-                            botoesCartas.get(i).setIcon(GerenciadorSprites.obterIconePorValor(valor, 100, 100));
+                            if (gerenciador != null) gerenciador.pararCronometro();
                             atualizarHUD();
                             AudioController.tocarEfeito("/jogodamemoria/recursos/sons/vitoria.wav");
                             Jogador vencedor = gerenciador.compararPontos(jogador1, jogador2);
