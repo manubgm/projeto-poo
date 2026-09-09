@@ -277,7 +277,7 @@ public class JanelaSinglePlayer extends JPanel implements ActionListener {
 
                         // Timer para esconder as cartas de novo após 1 segundo se errar
                         Timer timer = new Timer(1000, evento -> {
-                            // Retorna para o verso da carta (ex: coluna 0, linha 0 com o logo da Unesp)
+                            // Retorna para o verso da carta 
                             botoesCartas.get(pBotao).setIcon(GerenciadorSprites.obterCarta(0, 0, 100, 100));
                             botoesCartas.get(sBotao).setIcon(GerenciadorSprites.obterCarta(0, 0, 100, 100));
                             tabuleiroBloqueado = false;

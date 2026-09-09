@@ -8,7 +8,7 @@ import javax.swing.*;
 import jogodamemoria.controller.*;
 import jogodamemoria.model.*;
 import jogodamemoria.view.componentes.GerenciadorFontes;
-import jogodamemoria.view.componentes.GerenciadorSprites; // Importante para carregar as imagens
+import jogodamemoria.view.componentes.GerenciadorSprites; 
 
 public class JanelaMultiplayer extends JPanel implements ActionListener {
 
