@@ -16,8 +16,12 @@ public class PainelVidro extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Preenchimento translúcido
+        /* 
         g2.setColor(new Color(255, 255, 255, 60));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 40, 40);
+        */
+        g2.setColor(new Color(255,255,255,190));
+        g2.fillRoundRect(0,0,getWidth(),getHeight(),40,40);
 
         // Borda suave
         g2.setColor(new Color(255, 255, 255, 100));
