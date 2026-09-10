@@ -21,7 +21,7 @@ public class GerenciadorSprites {
                     larguraCartaCalculada = spritesheet.getWidth() / 5;
                     alturaCartaCalculada = spritesheet.getHeight() / 3;
                     
-                    System.out.println("Spritesheet carregado! Cada carta tem tamanho: " + larguraCartaCalculada + "x" + alturaCartaCalculada);
+                    System.out.println("Spritesheet carregado! Célula base: " + larguraCartaCalculada + "x" + alturaCartaCalculada);
                 } else {
                     System.out.println("ERRO: InputStream do Spritesheet é nulo!");
                 }
@@ -32,51 +32,125 @@ public class GerenciadorSprites {
     }
 
     public static ImageIcon obterIconePorValor(String valorCarta, int larguraDesejada, int alturaDesejada) {
+        System.out.println(">>> CHAMOU obterIconePorValor PARA A CARTA: " + valorCarta);
         carregarSpritesheet();
 
-        if (spritesheet == null) {
+        if (spritesheet == null || valorCarta == null) {
             return null; 
         }
 
         int coluna = 0;
         int linha = 0;
 
-        //mapa
+        //ajuste fino para todas as cartas
+        int offsetX = 0; 
+        int offsetY = 0; 
+        int larguraCorte = larguraCartaCalculada;
+        int alturaCorte = alturaCartaCalculada;
+
+        // Mapeamento individual por nome da carta
         switch (valorCarta.toLowerCase()) {
-            case "unesp":      coluna = 0; linha = 0; break;
-            case "gato":        coluna = 1; linha = 0; break;
-            case "marmita":     coluna = 2; linha = 0; break;
-            case "chapeu":     coluna = 3; linha = 0; break; 
-            case "diploma":     coluna = 4; linha = 0; break;
+            case "unesp":      
+                coluna = 0; linha = 0; 
+                offsetY= 100;
+                alturaCorte = alturaCartaCalculada - 50;
+                break;
+            case "gato":        //sp
+                coluna = 1; linha = 0; 
+                offsetX=10;
+                
+                offsetY=150;
+                alturaCorte = alturaCartaCalculada - 70;
 
-            case "computador":  coluna = 0; linha = 1; break;
-            case "notebook":    coluna = 1; linha = 1; break;
-            case "livro":       coluna = 2; linha = 1; break; 
-            case "mouse":       coluna = 3; linha = 1; break;
-            case "professor":   coluna = 4; linha = 1; break;
+                break;
+            case "marmita":     //sp
+                coluna = 2; linha = 0; 
+                offsetY=150;
+                alturaCorte = alturaCartaCalculada -70;
+                
+                break;
+            case "chapeu":     //sp
+                coluna = 3; linha = 0; 
+                offsetY=150;
+                alturaCorte = alturaCartaCalculada -70;
+                break; 
+            case "diploma":     //sp
+                coluna = 4; linha = 0;
+                offsetY=150;
+                alturaCorte = alturaCartaCalculada -70;
+                 
 
-            case "lampada":     coluna = 1; linha = 2; break; 
-            case "pilhalivros": coluna = 2; linha = 2; break; 
-            case "mochila":     coluna = 3; linha = 2; break;
+                break;
+
+            case "computador":  
+                coluna = 0; linha = 1; 
+               
+                offsetY=70;
+                alturaCorte = alturaCartaCalculada - 30;
+                
+               break;
+            case "notebook":    //sp
+                coluna = 1; linha = 1; 
+                offsetY=70;
+                offsetX=10;
+                alturaCorte = alturaCartaCalculada - 100;
+                break;
+            case "livro":       //pd
+                coluna = 2; linha = 1; 
+                offsetY=10;
+                break; 
+            case "mouse":       //pd
+                coluna = 3; linha = 1; 
+                offsetY=10;
+                break;
+            case "professor":   //pd
+                coluna = 4; linha = 1; 
+                offsetY=10;
+                break;
+
+            case "lampada":     
+                coluna = 1; linha = 2; 
+                offsetY=50;
+                break; 
+            case "pilhalivros": 
+                coluna = 2; linha = 2;
+                offsetY=-30; 
+                alturaCorte = alturaCartaCalculada -80;
+                break; 
+            case "mochila":     
+                coluna = 3; linha = 2; 
+                offsetY=50;
+                
+                break;
             
             default:
-                coluna = 0; linha = 0; 
+                // Tratamento caso venha algum número em formato de string do multiplayer antigo
+                try {
+                    int num = Integer.parseInt(valorCarta);
+                    coluna = (num - 1) % 5;
+                    linha = (num - 1) / 5;
+                } catch (NumberFormatException e) {
+                    coluna = 0; linha = 0;
+                }
                 break;
         }
 
         try {
-            int margem = 2; //teste
-            int x = (coluna * larguraCartaCalculada) + margem;
-            int y = (linha * alturaCartaCalculada) + margem;
-            int larguraRealCorte = larguraCartaCalculada - (margem * 2);
-            int alturaRealCorte = alturaCartaCalculada - (margem * 2);
+            int x = (coluna * larguraCartaCalculada) + offsetX;
+            int y = (linha * alturaCartaCalculada) + offsetY;
             
-            BufferedImage pedaco = spritesheet.getSubimage(x, y, larguraRealCorte, alturaRealCorte);
+            // Validações de segurança para limites da imagem
+            if (x < 0) x = 0;
+            if (y < 0) y = 0;
+            if (x + larguraCorte > spritesheet.getWidth()) larguraCorte = spritesheet.getWidth() - x;
+            if (y + alturaCorte > spritesheet.getHeight()) alturaCorte = spritesheet.getHeight() - y;
+
+            BufferedImage pedaco = spritesheet.getSubimage(x, y, larguraCorte, alturaCorte);
             Image imagemRedimensionada = pedaco.getScaledInstance(larguraDesejada, alturaDesejada, Image.SCALE_SMOOTH);
             
             return new ImageIcon(imagemRedimensionada);
         } catch (Exception e) {
-            System.out.println("Erro ao recortar a carta: " + valorCarta + " -> " + e.getMessage());
+            System.out.println("Erro ao recortar a carta " + valorCarta + ": " + e.getMessage());
             return null;
         }
     }
@@ -84,13 +158,10 @@ public class GerenciadorSprites {
     public static ImageIcon obterCarta(int coluna, int linha, int larguraDesejada, int alturaDesejada) {
         carregarSpritesheet();
         try {
-            int margem = 2; 
-            int x = (coluna * larguraCartaCalculada) + margem;
-            int y = (linha * alturaCartaCalculada) + margem;
-            int larguraRealCorte = larguraCartaCalculada - (margem * 2);
-            int alturaRealCorte = alturaCartaCalculada - (margem * 2);
+            int x = coluna * larguraCartaCalculada;
+            int y = linha * alturaCartaCalculada;
             
-            BufferedImage pedaco = spritesheet.getSubimage(x, y, larguraRealCorte, alturaRealCorte);
+            BufferedImage pedaco = spritesheet.getSubimage(x, y, larguraCartaCalculada, alturaCartaCalculada);
             Image imagemRedimensionada = pedaco.getScaledInstance(larguraDesejada, alturaDesejada, Image.SCALE_SMOOTH);
             
             return new ImageIcon(imagemRedimensionada);
